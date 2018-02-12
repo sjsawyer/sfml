@@ -1,4 +1,6 @@
-#pragma once
+#ifndef VECTORMATH_H
+#define VECTORMATH_H
+
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
@@ -14,3 +16,4 @@ sf::Vector2f lNormal(sf::Vector2f &v);
 
 sf::Vector2f rotate(sf::Vector2f &v, float theta);
 
+#endif

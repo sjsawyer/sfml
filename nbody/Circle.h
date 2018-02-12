@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
 #include <SFML/Graphics.hpp>
 #include "Shape.h"
 #include <vector>
@@ -57,4 +59,4 @@ typedef std::vector<Circle> CircleVect;
 // Corresponding iterator
 typedef CircleVect::iterator CircleIt;
 
-
+#endif

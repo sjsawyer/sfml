@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SQUARE_H
+#define SQUARE_H
+
 #include <SFML/Graphics.hpp>
 #include "Shape.h"
 
@@ -19,3 +21,5 @@ public:
 	// Dctor
 	~Square();
 };
+
+#endif

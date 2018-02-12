@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SHAPE_H
+#define SHAPE_H
+
 #include <SFML/Graphics.hpp>
 
 /*** Base class Shape from which Circle and Square inherit from ***/
@@ -43,3 +45,5 @@ public:
 	{
 	}
 };
+
+#endif
