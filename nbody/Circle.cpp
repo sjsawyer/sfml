@@ -69,7 +69,7 @@ sf::Vector2f Circle::getVelocity()
 	return m_velocity;
 }
 
-void Circle::setVelocity(sf::Vector2f &newVelocity)
+void Circle::setVelocity(const sf::Vector2f &newVelocity)
 {
 	m_velocity = newVelocity;
 }

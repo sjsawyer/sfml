@@ -36,7 +36,7 @@ public:
 	sf::Vector2f getCenter();
 	void move();
 	sf::Vector2f getVelocity();
-	void setVelocity(sf::Vector2f &newVelocity);
+	void setVelocity(const sf::Vector2f &newVelocity);
 
 	// Dctor
 	~Circle();
