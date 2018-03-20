@@ -29,3 +29,8 @@ T Shape<T>::getShape()
 {
 	return m_shape;
 }
+
+template <class T>
+Shape<T>::~Shape()
+{
+}
