@@ -15,35 +15,19 @@ protected:
 	T m_shape;
 
 public:
-	Shape() {}
+	Shape();
 
-	Shape(sf::Vector2f position, float speed, sf::Color color)
-		: m_position(position), m_speed(speed), m_color(color)
-	{
-		m_shape.setFillColor(color);
-		m_shape.setPosition(position);
-	}
+	Shape(sf::Vector2f position, float speed, sf::Color color);
 
-	void update()
-	{
-		m_shape.setPosition(m_position);
-	}
+	void update();
 
 	//virtual void setSize(float size);
 
-	sf::FloatRect getPosition()
-	{
-		return m_shape.getGlobalBounds();
-	}
+	sf::FloatRect getPosition();
 
-	T getShape()
-	{
-		return m_shape;
-	}
+	T getShape();
 
-	~Shape()
-	{
-	}
+	~Shape();
 };
 
 #endif
