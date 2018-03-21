@@ -9,25 +9,25 @@ template <typename T> // T is sf::RectangleShape or sf::CircleShape
 class Shape
 {
 protected:
-	sf::Vector2f m_position;
-	float m_speed;
-	sf::Color m_color;
-	T m_shape;
+    sf::Vector2f m_position;
+    float m_speed;
+    sf::Color m_color;
+    T m_shape;
 
 public:
-	Shape();
+    Shape();
 
-	Shape(sf::Vector2f position, float speed, sf::Color color);
+    Shape(sf::Vector2f position, float speed, sf::Color color);
 
-	void update();
+    void update();
 
-	//virtual void setSize(float size);
+    //virtual void setSize(float size);
 
-	sf::FloatRect getPosition();
+    sf::FloatRect getPosition();
 
-	T getShape();
+    T getShape();
 
-	~Shape();
+    ~Shape();
 };
 
 #endif

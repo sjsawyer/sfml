@@ -8,168 +8,168 @@
 
 int main()
 {
-	// Set window dimensions and FPS
-	int windowWidth = 1024;
-	int windowHeight = 768;
-	const unsigned int FPS = 60;
-	
-	// Make a window that is 1024 x 768 pixels and has title "N-Body System"
-	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight),
-		"N-Body System");
-	window.setFramerateLimit(FPS);
-	window.setVerticalSyncEnabled(true);
-	//window.setKeyRepeatEnabled(false);
+    // Set window dimensions and FPS
+    int windowWidth = 1024;
+    int windowHeight = 768;
+    const unsigned int FPS = 60;
+    
+    // Make a window that is 1024 x 768 pixels and has title "N-Body System"
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight),
+        "N-Body System");
+    window.setFramerateLimit(FPS);
+    window.setVerticalSyncEnabled(true);
+    //window.setKeyRepeatEnabled(false);
 
-	// Create a vector to hold the circles
-	CircleVect circles;
+    // Create a vector to hold the circles
+    CircleVect circles;
 
-	// Create a Square
-	Square square(sf::Vector2f(700.f, 500.f), 10.f, 100.f, sf::Color::Blue);
+    // Create a Square
+    Square square(sf::Vector2f(700.f, 500.f), 10.f, 100.f, sf::Color::Blue);
 
-	// frame delay for spawning circles
-	bool circleSpawned = false;
-	size_t frameDelay = 10;
-	int fD = 0;
-	bool paused = false;
+    // frame delay for spawning circles
+    bool circleSpawned = false;
+    size_t frameDelay = 10;
+    int fD = 0;
+    bool paused = false;
 
-	/*** Main loop ***/
-	while (window.isOpen())
-	{
-		/*** Handle player input ***/
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed || 
-				sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-				window.close();
+    /*** Main loop ***/
+    while (window.isOpen())
+    {
+        /*** Handle player input ***/
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || 
+                sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                window.close();
 
-			if (event.type == sf::Event::KeyReleased)
-			{
-				if (event.key.code == sf::Keyboard::P)
-					paused = !paused; // toggle paused
-			}
+            if (event.type == sf::Event::KeyReleased)
+            {
+                if (event.key.code == sf::Keyboard::P)
+                    paused = !paused; // toggle paused
+            }
 
-		} // end while(window.pollEvent(event))
+        } // end while(window.pollEvent(event))
 
-		if (!paused || sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
-		{
-			// Check for keyboard input
-			sf::FloatRect squPosition = square.getPosition();
+        if (!paused || sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
+        {
+            // Check for keyboard input
+            sf::FloatRect squPosition = square.getPosition();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
-				&& squPosition.left > 0)
-				// Square can move left
-				square.moveLeft();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
+                && squPosition.left > 0)
+                // Square can move left
+                square.moveLeft();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-				squPosition.left + squPosition.width < windowWidth)
-				// Square can move right
-				square.moveRight();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+                squPosition.left + squPosition.width < windowWidth)
+                // Square can move right
+                square.moveRight();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-				squPosition.top + squPosition.height < windowHeight)
-				// Square can move down
-				square.moveDown();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+                squPosition.top + squPosition.height < windowHeight)
+                // Square can move down
+                square.moveDown();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-				squPosition.top > 0)
-				// Square can move up
-				square.moveUp();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+                squPosition.top > 0)
+                // Square can move up
+                square.moveUp();
 
-			/*** Spawning of circles ***/
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)
-				&& !circleSpawned)
-			{
-				//Create a new circle
-				circles.push_back(Circle());
-				circleSpawned = true;
-			}
+            /*** Spawning of circles ***/
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)
+                && !circleSpawned)
+            {
+                //Create a new circle
+                circles.push_back(Circle());
+                circleSpawned = true;
+            }
 
-			if (circleSpawned)
-			{
-				fD++;
-				if (fD > frameDelay)
-				{
-					circleSpawned = false;
-					fD = 0;
-				}
-			}
+            if (circleSpawned)
+            {
+                fD++;
+                if (fD > frameDelay)
+                {
+                    circleSpawned = false;
+                    fD = 0;
+                }
+            }
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
-				circles.clear();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
+                circles.clear();
 
-			/*** Handle collision of Circle with Square ***/
-			for (CircleIt circle = circles.begin(); circle != circles.end(); circle++)
-			{
-				float circCenterX = circle->getCenter().x;
-				float circCenterY = circle->getCenter().y;
-				sf::FloatRect circPosition = circle->getPosition();
+            /*** Handle collision of Circle with Square ***/
+            for (CircleIt circle = circles.begin(); circle != circles.end(); circle++)
+            {
+                float circCenterX = circle->getCenter().x;
+                float circCenterY = circle->getCenter().y;
+                sf::FloatRect circPosition = circle->getPosition();
 
-				if (isCollision(*circle, square))
-				{
-					// Top and bottom of square
-					if (circCenterY < squPosition.top && circle->getVelocity().y > 0
-						|| circCenterY > squPosition.top + squPosition.height &&
-						circle->getVelocity().y < 0)
-						circle->reboundTopBottom();
-					// Sides of square
-					if (circCenterX < squPosition.left && circle->getVelocity().x > 0
-						|| circCenterX > squPosition.left + squPosition.width &&
-						circle->getVelocity().x < 0)
-						circle->reboundSides();
-				}
-				/*** Handle Collision of circle with screen ***/
-				// Top or bottom:
-				if (circPosition.top < 0 ||
-					circPosition.top + circPosition.height > windowHeight)
-					// Circle hit top or bottom of screen
-					circle->reboundTopBottom();
-				// Sides:
-				if (circPosition.left < 0 ||
-					circPosition.left + circPosition.width > windowWidth)
-					// Circle hit top or bottom of screen
-					circle->reboundSides();
+                if (isCollision(*circle, square))
+                {
+                    // Top and bottom of square
+                    if (circCenterY < squPosition.top && circle->getVelocity().y > 0
+                        || circCenterY > squPosition.top + squPosition.height &&
+                        circle->getVelocity().y < 0)
+                        circle->reboundTopBottom();
+                    // Sides of square
+                    if (circCenterX < squPosition.left && circle->getVelocity().x > 0
+                        || circCenterX > squPosition.left + squPosition.width &&
+                        circle->getVelocity().x < 0)
+                        circle->reboundSides();
+                }
+                /*** Handle Collision of circle with screen ***/
+                // Top or bottom:
+                if (circPosition.top < 0 ||
+                    circPosition.top + circPosition.height > windowHeight)
+                    // Circle hit top or bottom of screen
+                    circle->reboundTopBottom();
+                // Sides:
+                if (circPosition.left < 0 ||
+                    circPosition.left + circPosition.width > windowWidth)
+                    // Circle hit top or bottom of screen
+                    circle->reboundSides();
 
-				/*** Handle collision of circle with other circles ***/
-				for (CircleIt nextCircle = circle + 1; nextCircle != circles.end();
-					nextCircle++)
-				{
-					if (isCollision(*circle, *nextCircle))
-					{
-						reboundCircles(*circle, *nextCircle);
-						nextCircle->move();
-						nextCircle->update();
-					}
-				}
+                /*** Handle collision of circle with other circles ***/
+                for (CircleIt nextCircle = circle + 1; nextCircle != circles.end();
+                    nextCircle++)
+                {
+                    if (isCollision(*circle, *nextCircle))
+                    {
+                        reboundCircles(*circle, *nextCircle);
+                        nextCircle->move();
+                        nextCircle->update();
+                    }
+                }
 
-				// move current circle
-				circle->move();
+                // move current circle
+                circle->move();
 
-				/*** Update circle ***/
-				circle->update();
+                /*** Update circle ***/
+                circle->update();
 
-			} // end circle for loop
+            } // end circle for loop
 
-			// Update square
-			square.update();
+            // Update square
+            square.update();
 
-		} // end if(!paused)
+        } // end if(!paused)
 
-		// clear the frame
-		window.clear(sf::Color::Black);
+        // clear the frame
+        window.clear(sf::Color::Black);
 
-		/*** Draw the frame ***/
-		// Circles:
-		for (Circle &circle : circles)
-			window.draw(circle.getShape());
-		// Square:
-		window.draw(square.getShape());
+        /*** Draw the frame ***/
+        // Circles:
+        for (Circle &circle : circles)
+            window.draw(circle.getShape());
+        // Square:
+        window.draw(square.getShape());
 
-		// Show everything we just drew
-		window.display();
-	
-	} // end main loop
+        // Show everything we just drew
+        window.display();
+    
+    } // end main loop
 
-	return 0;
+    return 0;
 }
 

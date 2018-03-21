@@ -7,19 +7,19 @@
 class Square : public Shape<sf::RectangleShape>
 {
 private:
-	float m_sideLength;
+    float m_sideLength;
 public:
-	Square(sf::Vector2f position, float speed, float sideLength,
-		sf::Color color);
+    Square(sf::Vector2f position, float speed, float sideLength,
+        sf::Color color);
 
-	// Unique to Square
-	void moveLeft();
-	void moveRight();
-	void moveUp();
-	void moveDown();
+    // Unique to Square
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
 
-	// Dctor
-	~Square();
+    // Dctor
+    ~Square();
 };
 
 #endif
