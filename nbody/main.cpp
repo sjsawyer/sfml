@@ -53,28 +53,9 @@ int main()
 
         if (!paused || sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
         {
-            // Check for keyboard input
             sf::FloatRect squPosition = square.getPosition();
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
-                && squPosition.left > 0)
-                // Square can move left
-                square.moveLeft();
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-                squPosition.left + squPosition.width < windowWidth)
-                // Square can move right
-                square.moveRight();
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-                squPosition.top + squPosition.height < windowHeight)
-                // Square can move down
-                square.moveDown();
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-                squPosition.top > 0)
-                // Square can move up
-                square.moveUp();
+            bool squareCanMoveUp = true, squareCanMoveDown = true;
+            bool squareCanMoveLeft = true, squareCanMoveRight = true;
 
             /*** Spawning of circles ***/
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)
@@ -98,7 +79,6 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
                 circles.clear();
 
-            /*** Handle collision of Circle with Square ***/
             for (CircleIt circle = circles.begin(); circle != circles.end(); circle++)
             {
                 float circCenterX = circle->getCenter().x;
@@ -107,32 +87,47 @@ int main()
                 bool canMoveLeft = true, canMoveRight = true;
                 bool canMoveUp = true, canMoveDown = true;
 
+                /*** Handle collision of Circle with Square ***/
                 if (isCollision(*circle, square))
                 {
                     // Top and bottom of square
-                    if (circCenterY < squPosition.top && circle->getVelocity().y > 0)
+                    if (circCenterY < squPosition.top)
                     {
-                        circle->reboundTopBottom();
-                        canMoveDown = false;
+                        squareCanMoveUp = false;
+                        if (circle->getVelocity().y > 0)
+                        {
+                            circle->reboundTopBottom();
+                            canMoveDown = false;
+                        }
                     }
-                    if (circCenterY > squPosition.top + squPosition.height &&
-                        circle->getVelocity().y < 0)
+                    if (circCenterY > squPosition.top + squPosition.height)
                     {
-                        circle->reboundTopBottom();
-                        canMoveUp = false;
+                        squareCanMoveDown = false;
+                        if (circle->getVelocity().y < 0)
+                        {
+                            circle->reboundTopBottom();
+                            canMoveUp = false;
+                        }
                     }
                     // Sides of square
-                    if (circCenterX < squPosition.left && circle->getVelocity().x > 0)
+                    if (circCenterX < squPosition.left)
                     {
-                        circle->reboundSides();
-                        canMoveRight = false;
+                        squareCanMoveLeft = false;
+                        if (circle->getVelocity().x > 0)
+                        {
+                            circle->reboundSides();
+                            canMoveRight = false;
+                        }
                     }
 
-                    if (circCenterX > squPosition.left + squPosition.width &&
-                        circle->getVelocity().x < 0)
+                    if (circCenterX > squPosition.left + squPosition.width)
                     {
-                        circle->reboundSides();
-                        canMoveLeft = false;
+                        squareCanMoveRight = false;
+                        if (circle->getVelocity().x < 0)
+                        {
+                            circle->reboundSides();
+                            canMoveLeft = false;
+                        }
                     }
                 }
                 /*** Handle Collision of circle with screen ***/
@@ -192,6 +187,28 @@ int main()
 
             } // end circle for loop
 
+            // Check for keyboard input to move square
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
+                && squPosition.left > 0 && squareCanMoveLeft)
+                // Square can move left
+                square.moveLeft();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+                squPosition.left + squPosition.width < windowWidth
+                && squareCanMoveRight)
+                // Square can move right
+                square.moveRight();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+                squPosition.top + squPosition.height < windowHeight
+                && squareCanMoveDown)
+                // Square can move down
+                square.moveDown();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+                squPosition.top > 0 && squareCanMoveUp)
+                // Square can move up
+                square.moveUp();
             // Update square
             square.update();
 
