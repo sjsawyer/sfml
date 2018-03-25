@@ -166,6 +166,14 @@ int main()
                     if (isCollision(*circle, *nextCircle))
                     {
                         reboundCircles(*circle, *nextCircle);
+                        if (circle->getCenter().x < nextCircle->getCenter().x)
+                            canMoveRight = false;
+                        else
+                            canMoveLeft = false;
+                        if (circle->getCenter().y < nextCircle->getCenter().y)
+                            canMoveDown = false;
+                        else
+                            canMoveUp = false;
                         //nextCircle->move();
                         //nextCircle->update();
                     }
