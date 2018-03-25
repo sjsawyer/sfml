@@ -1,0 +1,2 @@
+#!/bin/sh
+g++ -std=c++11 *.cpp -o out -lsfml-graphics -lsfml-window -lsfml-system
