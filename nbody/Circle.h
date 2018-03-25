@@ -34,7 +34,8 @@ public:
     void reboundSides(int frameAdvance = 0);
     void reboundTopBottom(int frameAdvance = 0);
     sf::Vector2f getCenter();
-    void move();
+    void moveX();
+    void moveY();
     sf::Vector2f getVelocity();
     void setVelocity(const sf::Vector2f &newVelocity);
 

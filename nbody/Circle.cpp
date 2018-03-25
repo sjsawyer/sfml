@@ -58,9 +58,13 @@ void Circle::reboundTopBottom(int frameAdvance)
     m_velocity.y = -m_velocity.y;
 }
 
-void Circle::move()
+void Circle::moveX()
 {
     m_position.x += m_velocity.x;
+}
+
+void Circle::moveY()
+{
     m_position.y += m_velocity.y;
 }
 

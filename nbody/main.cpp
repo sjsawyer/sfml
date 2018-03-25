@@ -104,31 +104,60 @@ int main()
                 float circCenterX = circle->getCenter().x;
                 float circCenterY = circle->getCenter().y;
                 sf::FloatRect circPosition = circle->getPosition();
+                bool canMoveLeft = true, canMoveRight = true;
+                bool canMoveUp = true, canMoveDown = true;
 
                 if (isCollision(*circle, square))
                 {
                     // Top and bottom of square
-                    if (circCenterY < squPosition.top && circle->getVelocity().y > 0
-                        || circCenterY > squPosition.top + squPosition.height &&
-                        circle->getVelocity().y < 0)
+                    if (circCenterY < squPosition.top && circle->getVelocity().y > 0)
+                    {
                         circle->reboundTopBottom();
+                        canMoveDown = false;
+                    }
+                    if (circCenterY > squPosition.top + squPosition.height &&
+                        circle->getVelocity().y < 0)
+                    {
+                        circle->reboundTopBottom();
+                        canMoveUp = false;
+                    }
                     // Sides of square
-                    if (circCenterX < squPosition.left && circle->getVelocity().x > 0
-                        || circCenterX > squPosition.left + squPosition.width &&
-                        circle->getVelocity().x < 0)
+                    if (circCenterX < squPosition.left && circle->getVelocity().x > 0)
+                    {
                         circle->reboundSides();
+                        canMoveRight = false;
+                    }
+
+                    if (circCenterX > squPosition.left + squPosition.width &&
+                        circle->getVelocity().x < 0)
+                    {
+                        circle->reboundSides();
+                        canMoveLeft = false;
+                    }
                 }
                 /*** Handle Collision of circle with screen ***/
                 // Top or bottom:
-                if (circPosition.top < 0 ||
-                    circPosition.top + circPosition.height > windowHeight)
-                    // Circle hit top or bottom of screen
+                if (circPosition.top < 0)
+                {
                     circle->reboundTopBottom();
+                    canMoveUp = false;
+                }
+                if (circPosition.top + circPosition.height > windowHeight)
+                {
+                    circle->reboundTopBottom();
+                    canMoveDown = false;
+                }
                 // Sides:
-                if (circPosition.left < 0 ||
-                    circPosition.left + circPosition.width > windowWidth)
-                    // Circle hit top or bottom of screen
+                if (circPosition.left < 0)
+                {
                     circle->reboundSides();
+                    canMoveLeft = false;
+                }
+                if (circPosition.left + circPosition.width > windowWidth)
+                {
+                    circle->reboundSides();
+                    canMoveRight = false;
+                }
 
                 /*** Handle collision of circle with other circles ***/
                 for (CircleIt nextCircle = circle + 1; nextCircle != circles.end();
@@ -137,13 +166,18 @@ int main()
                     if (isCollision(*circle, *nextCircle))
                     {
                         reboundCircles(*circle, *nextCircle);
-                        nextCircle->move();
-                        nextCircle->update();
+                        //nextCircle->move();
+                        //nextCircle->update();
                     }
                 }
 
                 // move current circle
-                circle->move();
+                if (canMoveUp && circle->getVelocity().y < 0 ||
+                    canMoveDown && circle->getVelocity().y > 0)
+                    circle->moveY();
+                if (canMoveLeft && circle->getVelocity().x < 0 ||
+                    canMoveRight && circle->getVelocity().x > 0)
+                    circle->moveX();
 
                 /*** Update circle ***/
                 circle->update();
