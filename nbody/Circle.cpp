@@ -9,7 +9,7 @@
 bool Circle::seeded = false; // definition of static member variable 
 
 Circle::Circle()
-    : Shape()
+    : Shape<sf::CircleShape>()
 {
     // Ensure srand() is called only once
     if (!seeded) { srand(time(0)); seeded = true; }
@@ -33,7 +33,7 @@ Circle::Circle()
 
 Circle::Circle(sf::Vector2f position, float speed, float radius,
     sf::Color color, float mass)
-    : Shape(position, speed, color)
+    : Shape<sf::CircleShape>(position, speed, color)
 {
     m_shape.setPointCount(64);
     m_radius = radius;
