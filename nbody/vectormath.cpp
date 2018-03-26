@@ -24,12 +24,24 @@ float dot(const sf::Vector2f &v1, const sf::Vector2f &v2)
     return v1.x*v2.x + v1.y*v2.y;
 }
 
-sf::Vector2f lNormal(sf::Vector2f &v)
+sf::Vector2f normalize(const sf::Vector2f &v)
+{
+    float magnitude = distance(v);
+    return sf::Vector2f(v.x/magnitude, v.y/magnitude);
+}
+
+sf::Vector2f normalize(float x1, float x2)
+{
+    float magnitude = distance(x1, x2);
+    return sf::Vector2f(x1/magnitude, x2/magnitude);
+}
+
+sf::Vector2f lNormal(const sf::Vector2f &v)
 {
     return sf::Vector2f(-v.y, v.x);
 }
 
-sf::Vector2f rotate(sf::Vector2f &v, float theta)
+sf::Vector2f rotate(const sf::Vector2f &v, float theta)
 {
     float vx_new = dot(sf::Vector2f(cos(theta), -sin(theta)), v);
     float vy_new = dot(sf::Vector2f(sin(theta), cos(theta)), v);

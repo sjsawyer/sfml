@@ -154,7 +154,10 @@ int main()
                     canMoveRight = false;
                 }
 
-                /*** Handle collision of circle with other circles ***/
+                /**
+                Handle collision of circle with other circles, as well as
+                effects of gravity betwen circles
+                */
                 for (CircleIt nextCircle = circle + 1; nextCircle != circles.end();
                     nextCircle++)
                 {
@@ -169,9 +172,9 @@ int main()
                             canMoveDown = false;
                         else
                             canMoveUp = false;
-                        //nextCircle->move();
-                        //nextCircle->update();
                     }
+                    // TODO: maybe only apply if not a collision?
+                    applyGravForce(*circle, *nextCircle);
                 }
 
                 // move current circle

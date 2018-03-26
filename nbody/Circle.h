@@ -31,6 +31,7 @@ public:
         sf::Color color, float mass);
 
     // Unique to Circle
+    float getMass() const;
     void reboundSides(int frameAdvance = 0);
     void reboundTopBottom(int frameAdvance = 0);
     sf::Vector2f getCenter();
@@ -47,6 +48,7 @@ public:
     friend bool isCollision(Circle &circle, Square &square);
     friend bool isCollision(Circle &circ1, Circle &circ2);
     friend void reboundCircles(Circle &c1, Circle &c2);
+    friend void applyGravForce(Circle &c1, Circle &c2);
 };
 
 

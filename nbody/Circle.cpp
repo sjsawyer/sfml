@@ -42,6 +42,12 @@ Circle::Circle(sf::Vector2f position, float speed, float radius,
     m_mass = mass;
 }
 
+float Circle::getMass() const
+{
+    return m_mass;
+}
+
+
 // Use this function to handle rebounding the sides of the screen
 // as well as the sides of the Square
 void Circle::reboundSides(int frameAdvance)
@@ -163,3 +169,26 @@ void reboundCircles(Circle &c1, Circle &c2)
     c2.setVelocity(sf::Vector2f(v2x, v2y));
 }
 
+// Apply the effect of gravity of `c2` onto `c1` and vice versa
+void applyGravForce(Circle &c1, Circle &c2)
+{
+    // vector from c2 to c1
+    float c1x = c1.getCenter().x, c1y = c1.getCenter().y;
+    float c2x = c2.getCenter().x, c2y = c2.getCenter().y;
+    float rx = c1x - c2x, ry = c1y - c2y;
+    float d = distance(rx, ry); // magnitude of v
+    const float g = 0.005;
+
+    float v1x = c1.getVelocity().x, v1y = c1.getVelocity().y;
+    float v2x = c2.getVelocity().x, v2y = c2.getVelocity().y;
+    float m1 = c1.getMass(), m2 = c2.getMass();
+
+    // Apply the force of gravity
+    float v1x_new = v1x + (g*(m1 + m2)/(d*d))*(-rx/d);
+    float v1y_new = v1y + (g*(m1 + m2)/(d*d))*(-ry/d);
+    float v2x_new = v2x + (g*(m1 + m2)/(d*d))*(rx/d);
+    float v2y_new = v2y + (g*(m1 + m2)/(d*d))*(ry/d);
+
+    c1.setVelocity(sf::Vector2f(v1x_new, v1y_new));
+    c2.setVelocity(sf::Vector2f(v2x_new, v2y_new));
+}
