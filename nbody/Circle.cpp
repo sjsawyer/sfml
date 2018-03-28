@@ -188,10 +188,10 @@ void applyGravForce(Circle &c1, Circle &c2)
     float m1 = c1.getMass(), m2 = c2.getMass();
 
     // Apply the force of gravity
-    float v1x_new = v1x + (g*(m1 + m2)/(d*d))*(-rx/d);
-    float v1y_new = v1y + (g*(m1 + m2)/(d*d))*(-ry/d);
-    float v2x_new = v2x + (g*(m1 + m2)/(d*d))*(rx/d);
-    float v2y_new = v2y + (g*(m1 + m2)/(d*d))*(ry/d);
+    float v1x_new = v1x + (g*(m1 + m2)/(d))*(-rx/d);
+    float v1y_new = v1y + (g*(m1 + m2)/(d))*(-ry/d);
+    float v2x_new = v2x + (g*(m1 + m2)/(d))*(rx/d);
+    float v2y_new = v2y + (g*(m1 + m2)/(d))*(ry/d);
 
     c1.setVelocity(sf::Vector2f(v1x_new, v1y_new));
     c2.setVelocity(sf::Vector2f(v2x_new, v2y_new));
