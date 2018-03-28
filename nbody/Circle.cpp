@@ -15,12 +15,16 @@ Circle::Circle()
     if (!seeded) { srand(time(0)); seeded = true; }
 
     // Number of different sized circles to produce
-    int N = 10;
+    const int N = 10;
+    const float rmin = 9;
+    const float rmax = 90;
+    const float vmin = 2;
+    const float vmax = 6;
 
     float rng = static_cast<float>(rand() % (N + 1));
-    m_radius = valBetween(9, 120, rng, N);
-    m_mass = 100.f*(3.14f)*pow(m_radius, 2);
-    m_speed = valBetween(2, 6, rng, N, true); // negatively proportional to rng
+    m_radius = valBetween(rmin, rmax, rng, N);
+    m_mass = m_radius;
+    m_speed = (m_radius - rmin)*(vmin-vmax)/(rmax-rmin) + vmax;
     m_color = hsv(rand(), 1.f, 1.f);
     m_position = sf::Vector2f(100,100);
     m_velocity = sf::Vector2f(m_speed, m_speed);
