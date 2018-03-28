@@ -39,7 +39,7 @@ Circle::Circle(sf::Vector2f position, float speed, float radius,
     sf::Color color, float mass)
     : Shape<sf::CircleShape>(position, speed, color)
 {
-    m_shape.setPointCount(64);
+    m_shape.setPointCount(40);
     m_radius = radius;
     m_shape.setRadius(m_radius);
     m_velocity = sf::Vector2f(m_speed, m_speed);
