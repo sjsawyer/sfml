@@ -181,7 +181,7 @@ void applyGravForce(Circle &c1, Circle &c2)
     float c2x = c2.getCenter().x, c2y = c2.getCenter().y;
     float rx = c1x - c2x, ry = c1y - c2y;
     float d = distance(rx, ry); // magnitude of v
-    const float g = 0.005;
+    const float g = 0.5;
 
     float v1x = c1.getVelocity().x, v1y = c1.getVelocity().y;
     float v2x = c2.getVelocity().x, v2y = c2.getVelocity().y;
